@@ -34,6 +34,12 @@ clave para que no lo abra cualquiera que encuentre la dirección.</p>
 <div class="n">Los números generales, sin citas, están abiertos en
  <a href="ficha.html">la ficha</a>.</div>
 </div><script>
+/* TODO ADENTRO DE UNA FUNCION, y no es estilo: al descifrar se reemplaza el
+   documento con `document.write`, y los scripts del panel corren en el MISMO
+   contexto global que este. Declarar `const $` acá hacía que el panel —que
+   declara el suyo— muriera con «Identifier '$' has already been declared» y
+   se quedara en la pantalla de inicio sin dibujar nada. */
+(function(){
 const $=i=>document.getElementById(i);
 $("f").addEventListener("submit",async ev=>{
   ev.preventDefault();
@@ -60,4 +66,5 @@ $("f").addEventListener("submit",async ev=>{
     $("p").select();
   }
 });
+})();
 </script></body></html>
