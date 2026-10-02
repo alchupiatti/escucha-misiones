@@ -1,7 +1,9 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-<title>Escucha social — Misiones</title><style>
+<meta name="googlebot" content="noindex, nofollow">
+<title>Escucha social — Misiones</title>
+<style>
 :root{color-scheme:light dark;--pa:#f7f7f5;--su:#fff;--ink:#121212;
  --ink2:#56554f;--mut:#8a8880;--bor:rgba(0,0,0,.14);--neg:#c0392b}
 @media(prefers-color-scheme:dark){:root{--pa:#0f0f0f;--su:#1a1a19;--ink:#f2f2ef;
@@ -20,12 +22,12 @@ button{width:100%;margin-top:9px;padding:11px;font:inherit;font-weight:600;
  border:0;border-radius:9px;background:var(--ink);color:var(--pa);cursor:pointer}
 button:disabled{opacity:.6;cursor:default}
 .e{color:var(--neg);font-size:13px;margin-top:10px;min-height:19px}
-.n{font-size:12px;color:var(--mut);margin-top:14px;border-top:1px solid var(--bor);
- padding-top:12px}
+.n{font-size:12px;color:var(--mut);margin-top:14px;
+ border-top:1px solid var(--bor);padding-top:12px}
 a{color:inherit}
 </style></head><body><div class="c">
 <h1>Escucha social — Misiones</h1>
-<p>Este panel lleva <b>3.340 citas de comentarios</b> de ciudadanos. Va con
+<p>Este panel lleva <b>3,340 citas de comentarios</b> de ciudadanos. Va con
 clave para que no lo abra cualquiera que encuentre la dirección.</p>
 <form id="f"><input id="p" type="password" placeholder="Frase de acceso"
  autocomplete="current-password" autofocus>
@@ -34,11 +36,6 @@ clave para que no lo abra cualquiera que encuentre la dirección.</p>
 <div class="n">Los números generales, sin citas, están abiertos en
  <a href="ficha.html">la ficha</a>.</div>
 </div><script>
-/* TODO ADENTRO DE UNA FUNCION, y no es estilo: al descifrar se reemplaza el
-   documento con `document.write`, y los scripts del panel corren en el MISMO
-   contexto global que este. Declarar `const $` acá hacía que el panel —que
-   declara el suyo— muriera con «Identifier '$' has already been declared» y
-   se quedara en la pantalla de inicio sin dibujar nada. */
 (function(){
 const $=i=>document.getElementById(i);
 $("f").addEventListener("submit",async ev=>{
@@ -46,7 +43,7 @@ $("f").addEventListener("submit",async ev=>{
   const b=$("b"),e=$("e");
   b.disabled=true;b.textContent="Abriendo…";e.textContent="";
   try{
-    const r=await fetch("panel-1790980878.enc");
+    const r=await fetch("panel-1790981726.enc");
     if(!r.ok)throw new Error("no se pudo bajar el panel");
     const buf=new Uint8Array(await r.arrayBuffer());
     const salt=buf.slice(0,16),iv=buf.slice(16,28),datos=buf.slice(28);
@@ -55,11 +52,11 @@ $("f").addEventListener("submit",async ev=>{
     const k=await crypto.subtle.deriveKey(
       {name:"PBKDF2",salt:salt,iterations:310000,hash:"SHA-256"},
       mat,{name:"AES-GCM",length:256},false,["decrypt"]);
-    /* Si la clave esta mal, `decrypt` TIRA: el tag de AES-GCM no cierra. No
-       hace falta guardar un hash de la contraseña en ningun lado. */
+    /* Si la clave esta mal, `decrypt` TIRA: el tag de AES-GCM no cierra. Por
+       eso no hace falta guardar ningun hash de la contraseña. */
     const claro=await crypto.subtle.decrypt({name:"AES-GCM",iv:iv},k,datos);
-    const html=new TextDecoder().decode(claro);
-    document.open();document.write(html);document.close();
+    document.open();document.write(new TextDecoder().decode(claro));
+    document.close();
   }catch(err){
     b.disabled=false;b.textContent="Entrar";
     e.textContent="La frase no es correcta.";
