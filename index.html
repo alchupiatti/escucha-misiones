@@ -27,7 +27,7 @@ button:disabled{opacity:.6;cursor:default}
 a{color:inherit}
 </style></head><body><div class="c">
 <h1>Escucha social — Misiones</h1>
-<p>Este panel lleva <b>3,751 citas de comentarios</b> de ciudadanos. Va con
+<p>Este panel lleva <b>4,509 citas de comentarios</b> de ciudadanos. Va con
 clave para que no lo abra cualquiera que encuentre la dirección.</p>
 <form id="f"><input id="p" type="password" placeholder="Frase de acceso"
  autocomplete="current-password" autofocus>
@@ -43,7 +43,7 @@ $("f").addEventListener("submit",async ev=>{
   const b=$("b"),e=$("e");
   b.disabled=true;b.textContent="Abriendo…";e.textContent="";
   try{
-    const r=await fetch("panel-1791309090.enc");
+    const r=await fetch("panel-1791322642.enc");
     if(!r.ok)throw new Error("no se pudo bajar el panel");
     const buf=new Uint8Array(await r.arrayBuffer());
     const salt=buf.slice(0,16),iv=buf.slice(16,28),datos=buf.slice(28);
